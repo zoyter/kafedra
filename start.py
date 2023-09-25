@@ -172,9 +172,10 @@ class MyWidget(QMainWindow):
                 self.addLog(f'Обрабатываем дисциплину: '+" ".join(tmp))
                 myData.append(tmp)
 
-        myFile = open(self.fname+'.csv', 'w')
+        myFile = open(self.fname+'.csv', 'w', newline='')
+        # myFile = open(self.fname+'.csv', 'w',encoding="utf-8", newline='',delimiter=';')
         with myFile:
-            writer = csv.writer(myFile)
+            writer = csv.writer(myFile,delimiter=';')
             writer.writerows(myData)
         myFile.close()
         self.addLog('<span style="color:#00ff00">Обработка завершена</span>')
