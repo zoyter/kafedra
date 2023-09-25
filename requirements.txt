@@ -1,2 +1,6 @@
 pyqt5
 openpyxl
+xlsxwriter
+python-docx
+docxtpl
+python-pptx
