@@ -21,11 +21,12 @@ def get_prepods(sheet):
     teachers = set()
     for row in range(1,sheet.max_row + 1):
         cell_name = sheet[f"C{row}"].value
-        cell_name = cell_name.replace('\n',' ')
-        cell_name = cell_name.replace('\r',' ')
-        cell_name = cell_name.replace('  ','')
-        cell_name = cell_name.lower()
-        teachers.add(cell_name)
+        if cell_name:
+            cell_name = cell_name.replace('\n',' ')
+            cell_name = cell_name.replace('\r',' ')
+            cell_name = cell_name.replace('  ','')
+            cell_name = cell_name.lower()
+            teachers.add(cell_name)
     return teachers
 
 def get_stavki(sheet):
@@ -41,19 +42,24 @@ def get_stavki(sheet):
 def get_scientist(sheet):
     # Доля педагогических работников (включая лиц, привлекаемых на иных условиях), имеющих ученую степень и/или ученое звание, составляет _______%;
     r = set()
+    stavka = 0
     for row in range(1,sheet.max_row + 1):
         cell = sheet[f"E{row}"].value
-        cell = cell.replace('\n',' ')
-        cell = cell.replace('\r',' ')
-        cell = cell.replace('  ','')
-        cell = cell.lower()
-        if 'кандидат' in cell or 'доктор' in cell:
-            cell_name = sheet[f"C{row}"].value
-            cell_name = cell_name.replace('\n', ' ')
-            cell_name = cell_name.replace('\r', ' ')
-            cell_name = cell_name.replace('  ', '')
-            cell_name = cell_name.lower()
-            r.add(cell_name)
+
+        if cell:
+            cell = cell.replace('\n',' ')
+            cell = cell.replace('\r',' ')
+            cell = cell.replace('  ','')
+            cell = cell.lower()
+            if 'кандидат' in cell or 'доктор' in cell or 'канд.' in cell:
+                stavka += sheet[f"I{row}"].value
+                cell_name = sheet[f"C{row}"].value
+                cell_name = cell_name.replace('\n', ' ')
+                cell_name = cell_name.replace('\r', ' ')
+                cell_name = cell_name.replace('  ', '')
+                cell_name = cell_name.lower()
+                r.add(cell_name)
+    print(stavka)
     return len(r)
 
 fname = 'qqq.xlsx'
