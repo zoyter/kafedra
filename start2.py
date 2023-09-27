@@ -59,12 +59,35 @@ def get_scientist(sheet):
                 cell_name = cell_name.replace('  ', '')
                 cell_name = cell_name.lower()
                 r.add(cell_name)
-    print(stavka)
-    return len(r)
+    # print(stavka)
+    return stavka
+
+def get_ext_rabotnik(sheet, sheet2):
+    r = 0
+    rabotodatel = []
+    for row in range(1,sheet2.max_row + 1):
+        name = sheet2[f"B{row}"].value
+        if name:
+            name = name.lower()  # получаем фамилию работодателя со второго листа
+            if name not in rabotodatel:
+                rabotodatel.append(name)
+    print(rabotodatel)
+    # Перебираем первый лист и ищем работодателей
+    for row in range(1,sheet.max_row + 1):
+        cell = sheet[f"C{row}"].value # имя препода с первого листа
+        if cell:
+            name2 = cell.lower().replace('\n',' ').replace('\t',' ').replace('  ',' ') #
+            if name2 in rabotodatel:
+                stavka = sheet[f"I{row}"].value
+                if stavka:
+                    r+=stavka
+                    # print(name2, stavka,sep='\t')
+    return r
 
 fname = 'qqq.xlsx'
 wb = load_workbook(fname)
 sheet = wb['Лист1']
+sheet2 = wb['Лист2']
 number_rows = sheet.max_row
 number_columns = sheet.max_column
 print(number_rows,number_columns)
@@ -80,8 +103,9 @@ print('Общее количество ставок, занимаемых лиц
 print(f'\t {s:.2f}')
 
 print('Доля педагогических работников (включая лиц, привлекаемых на иных условиях), имеющих ученую степень и/или ученое звание, составляет _______%;')
-print(f'\t{si} человек, {(si/t)*100:.4f} % ')
+print(f'\t{si} человек, {(si/s)*100:.2f} % ')
+
 
 print('Доля работников из числа руководителей и (или) работников профильных организаций составляет _______%.')
-rabot = int(input('Введите количество представителей работодателя: '))
-print(f'\t{rabot} человек, {(rabot/t)*100:.2f} % ')
+rabot = get_ext_rabotnik(sheet,sheet2)
+print(f'\t{rabot} человек, {(rabot/s)*100:.2f} % ')
