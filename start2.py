@@ -34,6 +34,7 @@ def get_stavki(sheet):
     s = 0
     for row in range(1,sheet.max_row + 1):
         cell = sheet[f"i{row}"].value
+        # print(row,type(cell))
         if cell:
             s+=cell
     print(s,'-------------------')
@@ -52,6 +53,7 @@ def get_scientist(sheet):
             cell = cell.replace('  ','')
             cell = cell.lower()
             if 'кандидат' in cell or 'доктор' in cell or 'канд.' in cell:
+                print(row)
                 stavka += sheet[f"I{row}"].value
                 cell_name = sheet[f"C{row}"].value
                 cell_name = cell_name.replace('\n', ' ')
