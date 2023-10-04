@@ -8,7 +8,10 @@ from openpyxl.cell.cell import MergedCell
 from openpyxl.utils.cell import get_column_letter
 
 import csv
-
+'''
+    Программа берет данные из учебного плана в формате xlsx 
+    и формирует список дисциплин с подсчётом часов и количества ставок
+'''
 
 class MyWidget(QMainWindow):
     def __init__(self):
